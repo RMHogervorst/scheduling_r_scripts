@@ -170,27 +170,31 @@ Most of the following use Docker or something similar in the background but you 
 
 ### Gitlab
 
+*[back to top](#scheduling_r_scripts)*
+
 Gitlab introduced 'runners' years ago. There is a huge collection of runners available. these are docker containers that you can use. 
 
-**Where are the costs?**: 2000 CI/CD minutes a month for free. You can buy 1000 additional CI/CD minutes for 10 dollar. If you self host gitlab and the runners than you pay for the servers, network etc yourself. 
+**Where are the costs?**: 2000 CI/CD minutes a month for free. You can buy 1000 additional CI/CD minutes for 10 dollar. If you self host gitlab and the runners than you pay for the servers, network etc yourself and there is no extra pay for CI/CD.  
 
-**How easy is it to set up and use. and how easy can you transfer your work to your coworker**: 
+**How easy is it to set up and use. and how easy can you transfer your work to your coworker**: I don't know yet #TODO
 
 **Can you manage your entire configuration in code?**:  yes
 
-**Is there logging, how easy is it see what exactly went wrong?**: 
+**Is there logging, how easy is it see what exactly went wrong?**: I don't know yet #TODO
 
-**How precise is it and will it auto recover on failure?**: 
+**How precise is it and will it auto recover on failure?**: I don't know yet #TODO
 
-**how do you have to deal with secrets? can they leak?**:
+**how do you have to deal with secrets? can they leak?**:I don't know yet #TODO
 
-**in what country does it run**: that depends on if you use a on premise gitlab instance or the public version. 
+**in what country does it run**: that depends on if you use a on premise gitlab instance or the public version. I cannot find where the public version lives.
 
 **links**:
 
 * a blogpost describing how to use R on  [gitlab with docker containers for package building ](https://blog.methodsconsultants.com/posts/developing-r-packages-with-usethis-and-gitlab-ci-part-ii/)
 
 ### Github
+
+*[back to top](#scheduling_r_scripts)*
 
 Github actions is not really meant for scheduling scripts, but it does support it. 
 
@@ -216,6 +220,8 @@ Github actions is not really meant for scheduling scripts, but it does support i
 
 ### Heroku
 
+*[back to top](#scheduling_r_scripts)*
+
 Heroku is not really a version control system. But they did create something that is tightly connected to your git repository. I also did not want to create a new category for heroku only. Heroku is slightly more expensive than other 'cloud' providers but for that money they take over a lot of work for you. 
 
 **Where are the costs?**: You pay for addons and for running of the service. 
@@ -240,7 +246,7 @@ Heroku is not really a version control system. But they did create something tha
 
 # Advice for useRs
 
-
+*[back to top](#scheduling_r_scripts)*
 
 # Other issues questions and solutions
 
