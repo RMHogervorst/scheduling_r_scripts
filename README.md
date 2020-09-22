@@ -1,6 +1,6 @@
 # scheduling_r_scripts
 
-![](https://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by.svg)
+![](https://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by.svg)          [![DOI](https://zenodo.org/badge/297568091.svg)](https://zenodo.org/badge/latestdoi/297568091)    
 
 Authors: Roel M. Hogervorst
 
