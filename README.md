@@ -172,33 +172,34 @@ Most of the following use Docker or something similar in the background but you 
 
 *[back to top](#scheduling_r_scripts)*
 
-Gitlab introduced 'runners' years ago. There is a huge collection of runners available. these are docker containers that you can use. 
+Gitlab introduced 'runners' years ago. There is a huge collection of runners available. these are docker containers that you can use. The syntax seems somewhat easier than github. 
 
-**Where are the costs?**: 2000 CI/CD minutes a month for free. You can buy 1000 additional CI/CD minutes for 10 dollar. If you self host gitlab and the runners than you pay for the servers, network etc yourself and there is no extra pay for CI/CD.  
+**Where are the costs?**: 2000 CI/CD minutes a month for free over all your projects. You can buy 1000 additional CI/CD minutes for 10 dollar. If you self host gitlab and the runners than you pay for the servers, network etc yourself and there is no extra pay for CI/CD. If I run this daily and every run will indeed take 10 minutes as they do now. I do not have enough space for running continuously. I should get my runs under 5.4 minutes.
 
-**How easy is it to set up and use. and how easy can you transfer your work to your coworker**: I don't know yet #TODO
+**How easy is it to set up and use. and how easy can you transfer your work to your coworker**: I found a few examples and if you write the file in the gitlab editor in the browser it really helps you while you type. It is not really hard, but not easy either. You can just hand over the configuration to a coworker and it will work for them too.
 
 **Can you manage your entire configuration in code?**:  yes
 
-**Is there logging, how easy is it see what exactly went wrong?**: I don't know yet #TODO
+**Is there logging, how easy is it see what exactly went wrong?**: Yes, there is extensive logging, you can see the output of the container and highlighted what your commands were. So you can see that it failed because you did not install `libssl-dev` for instance. 
 
-**How precise is it and will it auto recover on failure?**: I don't know yet #TODO
+**How precise is it and will it auto recover on failure?**: When a 'pipeline' / job fails you get a notification. but not automatic retry.
 
-**how do you have to deal with secrets? can they leak?**:I don't know yet #TODO
+**how do you have to deal with secrets? can they leak?**: Under settings/  'CI/CD'  you can add env variables that are accesable in the gitlab script.
 
 **in what country does it run**: that depends on if you use a on premise gitlab instance or the public version. I cannot find where the public version lives.
 
 **links**:
 
 * a blogpost describing how to use R on  [gitlab with docker containers for package building ](https://blog.methodsconsultants.com/posts/developing-r-packages-with-usethis-and-gitlab-ci-part-ii/)
+* 
 
 ### Github
 
 *[back to top](#scheduling_r_scripts)*
 
-Github actions is not really meant for scheduling scripts, but it does support it. 
+Github actions is not really meant for scheduling scripts, but it does support it. You can set up an action (see blogpost link at the bottom) to schedule a run using the CRON syntax. github uses UTC. 
 
-**Where are the costs?**:  Github actions are free for 2000 actions minutes/month
+**Where are the costs?**:  Github actions are free for 2000 actions minutes/month over all your projects. If I run this daily and every run will indeed take 8 minutes as they do now I can run 250 actions a month, which is enough for my usecase.
 
 **How easy is it to set up and use. and how easy can you transfer your work to your coworker**: There are more and more examples but the setup was not super easy because the steps are slow
 
@@ -206,7 +207,7 @@ Github actions is not really meant for scheduling scripts, but it does support i
 
 **Is there logging, how easy is it see what exactly went wrong?**: There are logs in github actions, visible to everyone with access to the repo. But the feedbackloop is a bit slow if you ask me. 
 
-**How precise is it and will it auto recover on failure?**: That depends. 
+**How precise is it and will it auto recover on failure?**: You get an email when the action fails but there is no auto retry. 
 
 **how do you have to deal with secrets? can they leak?**: Similar to cloud services there is a way to store them as variables that are only accessable to the application and you. Everyone with write access to your repo can see the secrets. 
 
@@ -215,6 +216,8 @@ Github actions is not really meant for scheduling scripts, but it does support i
 **links**:
 
 * I created a blog post about github actions [here] and the github actions code lives [here](https://github.com/RMHogervorst/invertedushape/blob/main/.github/workflows/main.yml)
+* [examples of R-specific github actions are collected here](https://github.com/r-lib/actions)
+* there is a [book](https://ropenscilabs.github.io/actions_sandbox/) of github actions for R online.
 
 
 
