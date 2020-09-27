@@ -139,7 +139,7 @@ For most of these services you use a third party to run your stuff for you. That
 
 These are 'functions' things that run when you want them to run. Usually in response to a request, but they can be triggered by different things like a CRON type of message. 
 
-It runs on cloud providers like Amazon (AWS lambda) , Google (GCP Cloud Functions ) or  Microsoft (Azure Functions) or anywhere with an open source framework  like openfaas.  
+It runs on cloud providers like Amazon (AWS lambda) , Google (GCP Cloud Functions ) or  Microsoft (Azure Functions) or anywhere with an open source framework like openfaas.  
 
 **Where are the costs?**: With FAAS you pay for execution, you get a bit for free but pay for use. The advantages are that very fast scripts cost next to nothing and you don't pay for not using it (unlike a server where you pay whether you used it or not). It is also massively parallel, you can run thousands of copies of the 'function' (you would pay for all the executions though) because they are all independent. Long running processes are expensive though.  
 
@@ -147,7 +147,8 @@ It runs on cloud providers like Amazon (AWS lambda) , Google (GCP Cloud Function
 
 **Can you manage your entire configuration in code?**: Yes 
 
-**Is there logging, how easy is it see what exactly went wrong?**: Unknown #TODO
+**Is there logging, how easy is it see what exactly went wrong?**:
+Yes there is logging.  For GCP for example all logs are centralised in [Cloud Logging](https://cloud.google.com/logging).  There you can see logs for the R script and the service running the R script.  Whats more is that the logs can be used to trigger events, which can be sent on to activate trigger based workflows. 
 
 **How precise is it and will it auto recover on failure?**:  FAAS often have things like a cold start and a hot start. They are superfast in hot start (miliseconds sometimes) but if you haven't used the function for a while it goes into storage and triggering it will give it a cold start and that might take 5-10 times longer. Triggering a cold function for your batch job at 0900h will maybe lose you some time but realisticaly it starts within a minute and so how much you care about this is up to you and your application.
 
@@ -159,7 +160,7 @@ It runs on cloud providers like Amazon (AWS lambda) , Google (GCP Cloud Function
 
 * [openfaas (Function as a Service) (I don't have an R tutorial yet #TODO )](https://www.openfaas.com/)
 * R on AWS Lambda ([mediumpost](https://medium.com/bakdata/running-r-on-aws-lambda-9d40643551a6) & [AWS lambda R runtime](https://github.com/bakdata/aws-lambda-r-runtime))
-* R on GCP Cloud functions ([package 'googleCloudRunner'](https://code.markedmondson.me/googleCloudRunner/))
+* R on GCP Cloud Run (HTTP Containers as a service), Cloud Build (Batch jobs within Docker containers) and Cloud Scheduler (CRON in the cloud) - ([package 'googleCloudRunner'](https://code.markedmondson.me/googleCloudRunner/))
 *  [Azure functions with R](https://github.com/ktaranov/azure-function-r)
 
 
@@ -219,8 +220,6 @@ Github actions is not really meant for scheduling scripts, but it does support i
 * [examples of R-specific github actions are collected here](https://github.com/r-lib/actions)
 * there is a [book](https://ropenscilabs.github.io/actions_sandbox/) of github actions for R online.
 
-
-
 ### Heroku
 
 *[back to top](#scheduling_r_scripts)*
@@ -245,7 +244,29 @@ Heroku is not really a version control system. But they did create something tha
 
 * I wrote a blogpost about [running R on heroku](https://blog.rmhogervorst.nl/blog/2018/12/06/running-an-r-script-on-heroku/), and [an update from 2020](https://blog.rmhogervorst.nl/blog/2020/09/21/running-an-r-script-on-a-schedule-heroku/).
 
+### Google Cloud Build
 
+*[back to top](#scheduling_r_scripts)*
+
+Other cloud services have similar services, in the CI/CD field.  All use APIs which can be triggered via cron to batch schedule scripts, with varying degrees on integration between the respective cloud services. This is a bit of detail about the Google offering, Cloud Build which is faciliatated by [googleCloudRunner](https://code.markedmondson.me/googleCloudRunner/).  It uses a yaml format to coordinate Docker containers running when triggered by git events, such as GitHub, BitBucket or Google's own git platform Source Repositories.  
+
+**Where are the costs?**: You pay for CPU running time with a monthly free tier that usually means causal use is free.
+
+**How easy is it to set up and use. and how easy can you transfer your work to your coworker**: Once you are past authentication steps its simple to setup either in the Web UI or via the R package googleCloudRunner in R code.  The package inclues an RStudio gadget which you can point at your R script, R code in-line of a script hosted on Google Cloud Storage. As its using a neutral yaml format running Docker images you can give that to co-workers and they can run the exact same job without knowing R, or give them the R script that generated that yaml 
+
+**Can you manage your entire configuration in code?**: Yes, R code or yaml.
+
+**Is there logging, how easy is it see what exactly went wrong?**: Yes in Cloud Logging 
+
+**How precise is it and will it auto recover on failure?**: The scheduler runs as specified via cron syntax. You can set up auto-retries via extra scripting. 
+
+**how do you have to deal with secrets? can they leak?**: Google Secret Manager handles secret and has a templated R script `cr_buildstep_secret()`
+
+**in what country does it run**: Global cloud regions in US, EU and elsewhere. 
+
+**links**:
+
+* ['Run R code on a schedule' use case](https://code.markedmondson.me/googleCloudRunner/articles/usecases.html#run-r-code-on-a-schedule-1) on `googleCloudRunner` website. 
 
 # Advice for useRs
 
