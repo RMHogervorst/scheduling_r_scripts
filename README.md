@@ -4,11 +4,11 @@
 
 Authors: Roel M. Hogervorst
 
-*Last change 2020-09-22*
+*Last change 2020-10-18*
 
 This is an overview of many of the ways you can run an R script. 
 
-This has become a rather large overview but I think could help a lot of R-users. This overview is for you if you want to know how to run your batch script (do one thing without supervision) automatically. This overview does not talk about shiny or plumber, they are both great products that do incredible work, but they both sort of asume they run on a computer that is always on. I'm talking about scripts that you run once every day/week/hour/ etc. If you want more complex workflows look into the [advanced scheduling page](advanced_scheduling.md).  
+This has become a rather large overview but I think could help a lot of R-users. This overview is for you if you want to know how to run your batch script (do one thing without supervision) automatically. This overview does not talk about shiny or plumber, they are both great products that do incredible work, but they both sort of assume they run on a computer that is always on. I'm talking about scripts that you run once every day/week/hour/ etc. If you want more complex workflows look into the [advanced scheduling page](advanced_scheduling.md).  
 
 I'm trying to answer the following questions about all solutions:
 
@@ -23,7 +23,7 @@ I'm trying to answer the following questions about all solutions:
 
 
 
-I'm seperating out 3 usecases:
+I'm separating out 3 usecases:
 
 1. [You run it on your own computer](#own-computer)
 2. [You have a server available (a computer that is always on and accesable to you)](#own-a-server)
@@ -44,9 +44,9 @@ Think about your laptop / computer. You can run a script, but you can also make 
 
 Option 1 is really not sustainable, if you forget, it doesn't run. However the reality is that many companies  rely on such a manual step. So we cannot ignore it completely. Millions of people worldwide copy stuff into an excel file from another excel file, save and send it to someone else. Manual is good for unstable processes, with lots of changing demands. It also helps in applying the best algorithm of all: common sense. 
 
-**Where are the costs?**: High costs in people hours, maintainance of tools and training of other people. Specifically when the person doing this is doing repetitive work that a computer could have done, these are wasted hours. The cost of  computer is already paid for in other ways. 
+**Where are the costs?**: High costs in people hours, maintenance of tools and training of other people. Specifically when the person doing this is doing repetitive work that a computer could have done, these are wasted hours. The cost of  computer is already paid for in other ways. 
 
-**How easy is it to set up and use. and how easy can you transfer your work to your coworker**: This is probably a process that evolved over time. Setup and use are unknown, untill someone new is trained to do it.
+**How easy is it to set up and use. and how easy can you transfer your work to your coworker**: This is probably a process that evolved over time. Setup and use are unknown, until someone new is trained to do it.
 
 **how easy it is to change things, the script, changing secrets or frequency? **: Easy to change, some cost in new secrets that someone needs to type in. Changes in frequency only cost time that could have been spent on something else.
 
@@ -74,7 +74,7 @@ For linux and mac you have CRON or CRONTAB. A system tool that executes function
 
 This is an easy thing to try out for yourself. And easy to switch from a script that runs manually without your input (except typing source). There are some small snags: on linux the cron process runs as a different user and so it might not have access to the same R library. (you can specify the user if you want) You also have to think about the directory where the R process starts. Many of these tasks are done for you with the two packages I mention at the links of this section. 
 
-**Where are the costs?**: Lower than running it manually after some time investement to make it run for you (see XKCD comic at links of this section). The process, if it doesn't take all your system resources, can run while you are doing other things.
+**Where are the costs?**: Lower than running it manually after some time investment to make it run for you (see XKCD comic at links of this section). The process, if it doesn't take all your system resources, can run while you are doing other things.
 
 **How easy is it to set up and use. and how easy can you transfer your work to your coworker**: I think the initial setup is quite some work for inexperienced workers, but when it runs you can easily hand it over to a different user and set up in the same way. If your computer is turned off, the process will not run. 
 
@@ -84,7 +84,7 @@ This is an easy thing to try out for yourself. And easy to switch from a script 
 
 **How precise is it and will it auto recover on failure?**: You will not get a message that the job failed and it will not retry with CRON. It will fail and try again the next time the time of execution is there. It is quite precise, if you say start at 0900 than the process will start at 0900. 
 
-**how do you have to deal with secrets? can they leak?**: It runs on your computer so it really depends on where you store the secrets. If you place them in a .Renviron file than it really depends on where you store it. If it stays with the folder where the R process starts than other processes do not have access to it. If you place it in your home folder all the R processes have access to it. If you hardcode the secrets in the script, than anyone who can access the script will have access. 
+**how do you have to deal with secrets? can they leak?**: It runs on your computer so it really depends on where you store the secrets. If you place them in a .Renviron file than it really depends on where you store it. If it stays with the folder where the R process starts than other processes do not have access to it. If you place it in your home folder all the R processes have access to it. If you hard code the secrets in the script, than anyone who can access the script will have access. 
 
 **in what country does it run**: In the country where the user is at that moment. 
 
@@ -102,7 +102,7 @@ This is an easy thing to try out for yourself. And easy to switch from a script 
 
 In this case you own a server. A server is just a 'laptop' (usually without a screen, and sometimes in the cloud). Examples are: a raspberry pi you have lying around, an old laptop that you can use,  an actual server rack in house or office, or a cloud server for instance a virtual machine from one of the cloud providers (See links below). 
 
-The largest issue is how you go from your scripts on your local computer to the server. You need some tools to send the scripts, for instance transfering files with SCP or syncthing or dropbox or something.  Or some sort of release process with git (see for example my git remote shiny server example in the links below)
+The largest issue is how you go from your scripts on your local computer to the server. You need some tools to send the scripts, for instance transferring files with SCP or syncthing or dropbox or something.  Or some sort of release process with git (see for example my git remote shiny server example in the links below)
 
 The choices here are all dependent on how many jobs you run and the flexibility you seek. If you only run a few scripts and they have a fixed time than CRON is still a super useful tool. If you have several actions that depend on the output of each other then you need something else.  See the [advanced scheduling page](advanced_scheduling.md).  
 
@@ -116,7 +116,7 @@ The choices here are all dependent on how many jobs you run and the flexibility 
 
 **How precise is it and will it auto recover on failure?**: It is CRON or one of the [advanced options](advanced_scheduling.md). So it depends very much on your setup. But in the simple case, with CRON  there will be no mentioning of failure and no retries.
 
-**how do you have to deal with secrets? can they leak?**: Cloud connected servers with ports open are constantly pommeled by adverseries who want to take over your server and steal secrets or run cryptominers on them, they are not evil but the opportunity is cheap. Servers need to be patched and firewalled. They can become compromised and your secrets will be leaked. Devices that run on your own network and that have no direct open ports to the internet are generally better off. So a raspberry pi or laptop on your network that sometimes calls an API is less at risk than a server that has a shiny server running that the entire internet can access. 
+**how do you have to deal with secrets? can they leak?**: Cloud connected servers with ports open are constantly pommeled by adversaries who want to take over your server and steal secrets or run cryptominers on them, they are not evil but the opportunity is cheap. Servers need to be patched and firewalled. They can become compromised and your secrets will be leaked. Devices that run on your own network and that have no direct open ports to the internet are generally better off. So a raspberry pi or laptop on your network that sometimes calls an API is less at risk than a server that has a shiny server running that the entire internet can access. 
 
 **in what country does it run**: Your own or at your choice dependent on the cloud provider. 
 
@@ -150,7 +150,7 @@ It runs on cloud providers like Amazon (AWS lambda) , Google (GCP Cloud Function
 **Is there logging, how easy is it see what exactly went wrong?**:
 Yes there is logging.  For GCP for example all logs are centralised in [Cloud Logging](https://cloud.google.com/logging).  There you can see logs for the R script and the service running the R script.  Whats more is that the logs can be used to trigger events, which can be sent on to activate trigger based workflows. 
 
-**How precise is it and will it auto recover on failure?**:  FAAS often have things like a cold start and a hot start. They are superfast in hot start (miliseconds sometimes) but if you haven't used the function for a while it goes into storage and triggering it will give it a cold start and that might take 5-10 times longer. Triggering a cold function for your batch job at 0900h will maybe lose you some time but realisticaly it starts within a minute and so how much you care about this is up to you and your application.
+**How precise is it and will it auto recover on failure?**:  FAAS often have things like a cold start and a hot start. They are superfast in hot start (milliseconds sometimes) but if you haven't used the function for a while it goes into storage and triggering it will give it a cold start and that might take 5-10 times longer. Triggering a cold function for your batch job at 0900h will maybe lose you some time but realistically it starts within a minute and so how much you care about this is up to you and your application.
 
 **how do you have to deal with secrets? can they leak?** The major cloud providers have their own secrets stores where you can retrieve your keys from. In general these stores are well protected. You could of course lose secrets when you add them to the 
 
@@ -185,7 +185,7 @@ Gitlab introduced 'runners' years ago. There is a huge collection of runners ava
 
 **How precise is it and will it auto recover on failure?**: When a 'pipeline' / job fails you get a notification. but not automatic retry.
 
-**how do you have to deal with secrets? can they leak?**: Under settings/  'CI/CD'  you can add env variables that are accesable in the gitlab script.
+**how do you have to deal with secrets? can they leak?**: Under settings/  'CI/CD'  you can add env variables that are accessible in the gitlab script.
 
 **in what country does it run**: that depends on if you use a on premise gitlab instance or the public version. I cannot find where the public version lives.
 
@@ -200,7 +200,7 @@ Gitlab introduced 'runners' years ago. There is a huge collection of runners ava
 
 Github actions is not really meant for scheduling scripts, but it does support it. You can set up an action (see blogpost link at the bottom) to schedule a run using the CRON syntax. github uses UTC. 
 
-**Where are the costs?**:  Github actions are free for 2000 actions minutes/month over all your projects. If I run this daily and every run will indeed take 8 minutes as they do now I can run 250 actions a month, which is enough for my usecase.
+**Where are the costs?**:  Github actions are free for 2000 actions minutes/month over all your projects. If I run this daily and every run will indeed take 8 minutes as they do now I can run 250 actions a month, which is enough for my use case.
 
 **How easy is it to set up and use. and how easy can you transfer your work to your coworker**: There are more and more examples but the setup was not super easy because the steps are slow
 
@@ -210,7 +210,7 @@ Github actions is not really meant for scheduling scripts, but it does support i
 
 **How precise is it and will it auto recover on failure?**: You get an email when the action fails but there is no auto retry. 
 
-**how do you have to deal with secrets? can they leak?**: Similar to cloud services there is a way to store them as variables that are only accessable to the application and you. Everyone with write access to your repo can see the secrets. 
+**how do you have to deal with secrets? can they leak?**: Similar to cloud services there is a way to store them as variables that are only accessible to the application and you. Everyone with write access to your repo can see the secrets. 
 
 **in what country does it run**: I actually don't know #TODO
 
@@ -236,7 +236,7 @@ Heroku is not really a version control system. But they did create something tha
 
 **How precise is it and will it auto recover on failure?**: It runs around the time of the schedule, not exactly. It fails silently. But if you run it from the command line you do see output. 
 
-**how do you have to deal with secrets? can they leak?**: Similar to cloud services there is a way to store them as variables that are only accessable to the application and you.
+**how do you have to deal with secrets? can they leak?**: Similar to cloud services there is a way to store them as variables that are only accessible to the application and you.
 
 **in what country does it run**: By default in the USA, it is possible to run in Europe. Maybe other places too? 
 
@@ -283,11 +283,11 @@ Other cloud services have similar services, in the CI/CD field.  All use APIs wh
 
 Yes please open an issue or pull request to fix mistakes! For additions I would like an issue first to determine if they are within scope.
 
-You spelled CRAN wrong! Distinguish between CRAN the Compehensive R Archive Network and CRON (stands for chonometer or something. the tool in unixes that you can use to schedule things).
+You spelled CRAN wrong! Distinguish between CRAN the Comprehensive R Archive Network and CRON (stands for chronometer or something. the tool in unixes that you can use to schedule things).
 
 
 # Reuse / licencing of this work
-This text is licenced as CC BY 4.0 (creative commons attribiion 4.0 international). 
+This text is licensed as CC BY 4.0 (creative commons attribution 4.0 international). 
 You are free to copy and redistribute the material in any medium or format, and to adapt, remix transform and build upon it, even commercially.
 Just give me credit. 
-See Licence file for more info.
+See License file for more info.
