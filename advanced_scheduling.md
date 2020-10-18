@@ -21,6 +21,9 @@ From the docs:
 
 Drake analyses your steps, notices what is done and what is not and even visualises your steps. It also keeps logs of your work. It also has the ability to run on schedules although I do not know for sure. #helpwanted #TODO
 
+There is now an alternative to DRAKE by the same makers: [TARGETS](https://wlandau.github.io/targets/)
+
+
 # Airflow
 
 [Apache Airflow](https://airflow.apache.org/) is :

@@ -29,6 +29,9 @@ I'm separating out 3 usecases:
 2. [You have a server available (a computer that is always on and accesable to you)](#own-a-server)
 3. [You use ephemeral services (serverless, pay for use only)](#ephemeral)
 
+If you are looking for some (non binding, non-legal) advice, I give some suggestions [in Advice for useRs](#advice-for-users).
+
+
 # Own computer
 
 *[back to top](#scheduling_r_scripts)*
@@ -152,7 +155,7 @@ Yes there is logging.  For GCP for example all logs are centralised in [Cloud Lo
 
 **How precise is it and will it auto recover on failure?**:  FAAS often have things like a cold start and a hot start. They are superfast in hot start (milliseconds sometimes) but if you haven't used the function for a while it goes into storage and triggering it will give it a cold start and that might take 5-10 times longer. Triggering a cold function for your batch job at 0900h will maybe lose you some time but realistically it starts within a minute and so how much you care about this is up to you and your application.
 
-**how do you have to deal with secrets? can they leak?** The major cloud providers have their own secrets stores where you can retrieve your keys from. In general these stores are well protected. You could of course lose secrets when you add them to the 
+**how do you have to deal with secrets? can they leak?** The major cloud providers have their own secrets stores where you can retrieve your keys from. In general these stores are well protected. You could of course lose secrets when you add them to the script or when you broadcast the secrets from your script: e.g.: `cat(paste0("my secret is:", Sys.getenv("secret")))`
 
 **in what country does it run**: You can set the country/region of your choice. The three cloud providers are worldwide distributed so you are probably fine.
 
@@ -271,6 +274,26 @@ Other cloud services have similar services, in the CI/CD field.  All use APIs wh
 # Advice for useRs
 
 *[back to top](#scheduling_r_scripts)*
+
+So you want to run a script on a schedule. After this entire document, I understand that you are a bit confused. I suggest we can think this through in two steps. The first step is to make sure your script is as **portable as possible**; making sure all the required things (script, secrets, package versions) are together. 
+The second step is making some decisions.
+
+## Making your script more portable
+
+1. Make sure your script runs without interaction locally: From your R session try `source("name_of_your_script.R")`, and from a terminal: `Rscript name_of_your_script.R` 
+2. Replace all the secrets from the script and replace them with `Sys.getenv("secretname")` calls. (save the secrets in a .Renviron file next to the script in the same project (let git ignore that file! uploading that file to github is the same as giving someone your secret keys))
+3. Run the script again to see if it works.
+4. (not required, but I really recommend it) use renv to capture the required packages
+
+## Decisions:
+
+*  is it one script and does it run during your working hours? The easiest way is to schedule it on your laptop, go to that [advice here](#own-computer). Keep in mind that it only works if your computer is awa
+* Only a few scripts, need to run without your computer and no more than a few times per day? Go for one of the [ephemeral services, through github/gitlab ](#serverless-integrated-with-version-control)
+* If you have tens of scripts you might want to go for your (own server)[#own-a-server]. use a spare (low power) computer locally (this is super cheap over time)  or rent a computer from one of the cloud services (starts at 5 dollars/euros a month). 
+* If your company/place of work has many scheduled data actions (daily aggregations, summaries, etc.).it might be time for a true scheduler. Try one of the examples in [advanced scheduling](advanced_scheduling.md). Hopefully you will have someone to help you with scheduling your scripts. 
+
+Summarizing: you can set up local jobs, run it on a server, run it in the cloud, or schedule it through some ephemeral cloud services. Whatever you use, the first step is to make sure your script is more portable and let me know how it goes. 
+
 
 # Other issues questions and solutions
 
